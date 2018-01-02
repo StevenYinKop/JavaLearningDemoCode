@@ -14,4 +14,8 @@ public interface ILandAnimal {
 	default void breathInAir() {
 		System.out.println("ILandAnimal.breathInAir()");
 	}
+	default void eat() {
+	    System.out.println("ILandAnimal.eat()");
+	}
+	
 }
