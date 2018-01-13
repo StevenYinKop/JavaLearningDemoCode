@@ -1,0 +1,17 @@
+JUC: 
+	1. java JUC
+		在Java5提供了java.util.concurrent包, 在此包中增加了在并发编程中很常用的实用工具类, 用于定义类似于线程的自定义子系统, 包括线程池, 异步IO, 轻量级任务框架. 提供可调的, 灵活的线程池, 还提供了设计用于多线程上下文中的Collection实现等.
+	2. volatile 关键字, 内存可见性
+		volatile
+	3. 原子变量-CAS算法
+	4. ConcurrentHashMap 锁分段机制
+	5. CountDownLatch 闭锁
+	6. 实现Callable接口
+	7. Lock同步锁
+	8. Condition 控制线程通信
+	9. 线程八锁
+	10. 线程按序交替
+	11. ReadWriteLock读写锁
+	12. 线程池
+	13. 线程调度
+	14. ForkJoinPool分支/合并框架 工作窃取
