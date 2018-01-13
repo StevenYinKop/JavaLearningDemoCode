@@ -5,7 +5,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.junit.Test;
@@ -134,8 +136,15 @@ public class Kata {
 	 * 
 	 */
 	public static int[] deleteNth(int[] elements, int maxOcurrences) {
+		if (elements.length == 0) {
+			return elements;
+		}
 		List<Integer> list = new ArrayList<>();
+		List<Integer> blackList = new ArrayList<>();
 		for (int i = 0; i < elements.length; i++) {
+			if (blackList.contains(elements[i])) {
+				continue;
+			}
 			int count = 0;
 			for (Integer integer : list) {
 				if (elements[i] == integer) {
@@ -144,6 +153,8 @@ public class Kata {
 			}
 			if (count < maxOcurrences) {
 				list.add(elements[i]);
+			} else {
+				blackList.add(elements[i]);
 			}
 		}
 		int[] result = new int[list.size()];
@@ -151,6 +162,30 @@ public class Kata {
 			result[i] = list.get(i);
 		}
 		return result;
+	}
+
+	public static int[] deleteNth2(int[] elements, int maxOcurrences) {
+		List<Integer> args = new ArrayList<Integer>();
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for (int i : elements) {
+			if (map.containsKey(i)) {
+				int temp = map.get(i);
+				if (temp < maxOcurrences) {
+					args.add(i);
+					map.put(i, map.get(i) + 1);
+				}
+			} else {
+				map.put(i, 1);
+				args.add(i);
+			}
+		}
+		int[] array = new int[args.size()];
+		int n = 0;
+		for (Integer i : args) {
+			array[n] = i;
+			n++;
+		}
+		return array;
 	}
 
 	@Test
@@ -257,7 +292,19 @@ public class Kata {
 	 * 
 	 */
 	public static int solveSuperMarketQueue(int[] customers, int n) {
-		return 0;
+		int sum = 0;
+		if (n == 1) {
+			for (int i : customers) {
+				sum += i;
+			}
+			return sum;
+		}
+		int[] checkouts = new int[n];
+		for (int i : customers) {
+			checkouts[0] += i;
+			Arrays.sort(checkouts);
+		}
+		return checkouts[checkouts.length - 1];
 	}
 
 	@Test
