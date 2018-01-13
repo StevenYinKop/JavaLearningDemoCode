@@ -10,4 +10,8 @@ public interface IWaterAnimal {
 	default void breathInWater() {
 		System.out.println("IWaterAnimal.breathInWater()");
 	}
+	default void eat() {
+	    System.out.println("IWaterAnimal.eat()");
+	}
+	
 }
