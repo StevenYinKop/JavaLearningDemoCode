@@ -5,13 +5,16 @@ import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import javax.mail.Transport;
 
 /**
 * @author Cin
 * @time 2018/01/03 21:19:15
 */
 public class MailUtils {
+    public static void foo() {
+        
+    }
+    
 	/**
 	 * 发送邮件
 	 * @param to

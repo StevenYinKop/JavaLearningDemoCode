@@ -4,8 +4,6 @@ package com.yinzifan.java8Demo.lambda;
  * @time 2018/01/01 16:56:19
  */
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.Comparator;
 

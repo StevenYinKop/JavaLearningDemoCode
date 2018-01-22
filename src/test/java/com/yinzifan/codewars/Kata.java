@@ -534,4 +534,22 @@ public class Kata {
         assertEquals("YES", Kata.tickets(new int[] { 25, 25, 50 }));
         assertEquals("NO", Kata.tickets(new int[] { 25, 100, 25, 50, 25, 100 }));
     }
+    
+    // @Test
+    // public void test11() throws Exception {
+    // int i = 0b100001; // 33
+    // int j = 0b110010; // 50
+    // i = i^j; // k
+    // j = i^j; // i^j^i
+    // i = j^i; // i^j^i^i^j
+    // System.out.println(j);
+    // System.out.println(i);
+    
+    // int i = 15;
+    // int j = 30;
+    // i = i+j; // 45;
+    // j = i-j; // 15;
+    // i = i-j; // 30;
+    
+    // }
 }
