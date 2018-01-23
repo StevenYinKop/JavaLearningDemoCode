@@ -10,12 +10,9 @@ package com.yinzifan.java8Demo.stream;
 *   Stream 是Java8 中处理集合的关键操作可以执行复杂的查找,过滤,映射等操作,
 */
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -26,13 +23,13 @@ public class StreamDemo01 {
 	public void test1() throws Exception {
 		// 创建一个流: 
 		// 1 Collection接口中的stream()和parallelStream方法
-		List<String> list = new ArrayList<>();
-		Stream<String> stream = list.stream();
-		Stream<String> parallelStream = list.parallelStream();
+//		List<String> list = new ArrayList<>();
+//		Stream<String> stream = list.stream();
+//		Stream<String> parallelStream = list.parallelStream();
 		// 2 通过Arrays.stream()方法来创建一个流
-		Stream<Integer> arrayStream = Arrays.stream(new Integer[10]);
+//		Stream<Integer> arrayStream = Arrays.stream(new Integer[10]);
 //		3 通过Stream类的静态方法of()来创建
-		Stream<Integer> ofStream = Stream.of(1,2,3,4,5,6);
+//		Stream<Integer> ofStream = Stream.of(1,2,3,4,5,6);
 	}
 	List<Person> list = Arrays.asList(
 			new Person("tom", 12, "USA"),
