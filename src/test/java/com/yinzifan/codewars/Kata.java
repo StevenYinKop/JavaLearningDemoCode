@@ -1,13 +1,22 @@
 package com.yinzifan.codewars;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
+import java.awt.Point;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.junit.Test;
@@ -157,10 +166,7 @@ public class Kata {
             }
         }
         int[] result = new int[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i);
-        }
-        return result;
+        return Arrays.stream(result).toArray();
     }
     
     public static int[] deleteNth2(int[] elements, int maxOcurrences) {
@@ -514,42 +520,446 @@ public class Kata {
                 count25--;
             }
             if (i == 100) {
-                if (count25 < 3 || (count25 == 0 && count50 <= 1)) {
+                if ((count25 < 3 && count50 == 0) || (count25 == 0 && count50 <= 1)) {
                     return "NO";
-                } else if (count25 >= 3) {
-                    count25 -= 3;
-                } else if (count50 > 1 && count25 > 0) {
+                } else if (count50 >= 1 && count25 > 0) {
                     count25--;
                     count50--;
+                } else if (count25 >= 3) {
+                    count25 -= 3;
                 }
             }
         }
         // Your code is here...
-        
         return "YES";
     }
     
-    @Test
-    public void testTickets() {
-        assertEquals("YES", Kata.tickets(new int[] { 25, 25, 50 }));
-        assertEquals("NO", Kata.tickets(new int[] { 25, 100, 25, 50, 25, 100 }));
+    public static String tickets2(int[] peopleInLine) {
+        int i, sum=0, change = 0;
+        String a = "";
+        for(i=0; i<peopleInLine.length; i++) {
+            
+            sum += 25;
+            change = (peopleInLine[i] - 25);
+            sum -= change;
+            
+            if(sum < change) {
+              a = "NO";
+            }
+            else a = "YES";
+        }
+        return a;
     }
     
-    // @Test
-    // public void test11() throws Exception {
-    // int i = 0b100001; // 33
-    // int j = 0b110010; // 50
-    // i = i^j; // k
-    // j = i^j; // i^j^i
-    // i = j^i; // i^j^i^i^j
-    // System.out.println(j);
-    // System.out.println(i);
     
-    // int i = 15;
-    // int j = 30;
-    // i = i+j; // 45;
-    // j = i-j; // 15;
-    // i = i-j; // 30;
     
-    // }
+    @Test
+    public void testTickets() {
+//        assertEquals("YES", Kata.tickets(new int[] { 25, 25, 50 }));
+//        assertEquals("NO", Kata.tickets(new int[] { 25, 100, 25, 50, 25, 100 }));
+        assertEquals("YES", Kata.tickets2(new int[] { 25, 25, 25, 25, 50, 100, 50}));
+    }
+    /*
+     * -----------------------------------------------------------------------
+     */
+    /*
+     * You are given an array (which will have a length of at least 3, but could be very large) containing integers. 
+     * The array is either entirely comprised of odd integers or entirely comprised of even integers except for a single integer N. 
+     * Write a method that takes the array as an argument and returns this "outlier" N.
+        Examples
+        [2, 4, 0, 100, 4, 11, 2602, 36]
+        Should return: 11 (the only odd number)
+        [160, 3, 1719, 19, 11, 13, -21]
+        Should return: 160 (the only even number)
+     */
+    static int find(int[] integers){
+        Integer even = null;
+        Integer odd = null;
+        for(int i = 0; i < integers.length - 1; i++) {
+            if(integers[i] % 2 == 0) {
+                // even
+                if (even != null) {
+                    if(odd != null) {
+                        return odd;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    even = integers[i];
+                }
+            } else {
+                if (odd != null) {
+                    if(even != null) {
+                        return even;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    odd = integers[i];
+                }
+            }
+        }
+        Integer lastEle = integers[integers.length-1];
+        if (even == null || odd == null) {
+            return lastEle;
+        } else {
+            return lastEle % 2 == 0 ? odd : even;
+        }
+    }
+    
+    public static int find2(int[] integers) {
+        // Since we are warned the array may be very large, we should avoid counting values any more than we need to.
+
+        // We only need the first 3 integers to determine whether we are chasing odds or evens.
+        // So, take the first 3 integers and compute the value of Math.abs(i) % 2 on each of them.
+        // It will be 0 for even numbers and 1 for odd numbers.
+        // Now, add them. If sum is 0 or 1, then we are chasing odds. If sum is 2 or 3, then we are chasing evens.
+        int sum = Arrays.stream(integers).limit(3).map(i -> Math.abs(i) % 2).sum();
+        int mod = (sum == 0 || sum == 1) ? 1 : 0;
+
+        return Arrays.stream(integers).parallel() // call parallel to get as much bang for the buck on a "large" array
+                .filter(n -> Math.abs(n) % 2 == mod).findFirst().getAsInt();
+    }
+    
+    @Test
+    public void testFind() {
+        int[] exampleTest1 = {2,6,8,-10,3}; 
+        int[] exampleTest2 = {206847684,1056521,7,17,1901,21104421,7,1,35521,1,7781}; 
+        int[] exampleTest3 = {Integer.MAX_VALUE, 0, 1};
+        assertEquals(3, find(exampleTest1));
+        assertEquals(206847684, find(exampleTest2));
+        assertEquals(0, find(exampleTest3));
+    }
+    
+    /*
+     * -----------------------------------------------------------------------
+     */
+    /*
+     * Write a program that will calculate the number of trailing zeros in a factorial of a given number.
+        N! = 1 * 2 * 3 * ... * N
+        Be careful 1000! has 2568 digits...
+        For more info, see: http://mathworld.wolfram.com/Factorial.html
+        Examples
+        zeros(6) = 1
+        # 6! = 1 * 2 * 3 * 4 * 5 * 6 = 720 --> 1 trailing zero
+        zeros(12) = 2
+        # 12! = 479001600 --> 2 trailing zeros
+        Hint: You're not meant to calculate the factorial. Find another way to find the number of zeros.
+     */
+    public static int zeros(int n) {
+        /*
+         * 1! = 1 0
+         * 2! = 2 0
+         * 3! = 6 0
+         * 4! = 24 0
+         * 5! = 120 1
+         * 6! = 720 1
+         * 7! = 5040 1
+         * 8! = 40320 1
+         * 9! = 362880 1
+         * 10! = 3628800 2
+         */
+        int count = 0;
+//        for(int i = 5; i <= n; i = i+5) {
+//            count++;
+//            for(int j = 2 ; Math.pow(5, j) <= i  ;j++) {
+//                if(i%Math.pow(5, j)==0) {
+//                    count ++;
+//                } 
+//            }
+//        }
+//        return count;
+        for(int j = 1 ; Math.pow(5, j) <= n  ;j++) {
+            for(int i = (int)Math.pow(5, j); i <= n; i = i+(int)Math.pow(5, j)) {
+                count++;
+            }
+        }
+        return count;
+        
+    }
+    
+    @Test
+    public void testZeros() throws Exception {
+        assertThat(Kata.zeros(0), is(0)); 
+        assertThat(Kata.zeros(6), is(1)); 
+        assertThat(Kata.zeros(14), is(2));
+        assertThat(Kata.zeros(25), is(6));
+        assertThat(Kata.zeros(1266), is(315));
+//        zeros(100);
+      }
+    
+    /*
+     * -----------------------------------------------------------------------
+     */
+    /*
+     * Once upon a time, on a way through the old wild west,…
+        … a man was given directions to go from one point to another. 
+        The directions were "NORTH", "SOUTH", "WEST", "EAST". Clearly "NORTH" and "SOUTH" are opposite, 
+        "WEST" and "EAST" too. Going to one direction and coming back the opposite direction is a needless effort. 
+        Since this is the wild west, with dreadfull weather and not much water, 
+        it's important to save yourself some energy, otherwise you might die of thirst!
+        How I crossed the desert the smart way.
+        The directions given to the man are, for example, the following:
+        
+        ["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"].
+        or
+        { "NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST" };
+        or (haskell)
+        
+        [North, South, South, East, West, North, West]
+        You can immediatly see that going "NORTH" and then "SOUTH" is not reasonable, better stay to the same place! So the task is to give to the man a simplified version of the plan. A better plan in this case is simply:
+        
+        ["WEST"]
+        or
+        { "WEST" }
+        or (haskell)
+        
+        [West]
+        or (rust)
+        [WEST];
+        Other examples:
+        In ["NORTH", "SOUTH", "EAST", "WEST"], the direction "NORTH" + "SOUTH" is going north and coming back right away. What a waste of time! Better to do nothing.
+        The path becomes ["EAST", "WEST"], now "EAST" and "WEST" annihilate each other, therefore, the final result is [] (nil in Clojure).
+        In ["NORTH", "EAST", "WEST", "SOUTH", "WEST", "WEST"], "NORTH" and "SOUTH" are not directly opposite but they become directly opposite after the reduction of "EAST" and "WEST" so the whole path is reducible to ["WEST", "WEST"].
+        Task
+        Write a function dirReduc which will take an array of strings and returns an array of strings with the needless directions removed (W<->E or S<->N side by side).
+        The Haskell version takes a list of directions with data Direction = North | East | West | South. The Clojure version returns nil when the path is reduced to nothing. The Rust version takes a slice of enum Direction {NORTH, SOUTH, EAST, WEST}.
+        
+        Examples
+        dirReduc(@[@"NORTH", @"SOUTH", @"SOUTH", @"EAST", @"WEST", @"NORTH", @"WEST"]); // => @[@"WEST"]
+        dirReduc(@[@"NORTH", @"SOUTH", @"SOUTH", @"EAST", @"WEST", @"NORTH"]); // => @[]
+        See more examples in "Example Tests"
+        Note
+        Not all paths can be made simpler. The path ["NORTH", "WEST", "SOUTH", "EAST"] is not reducible. "NORTH" and "WEST", "WEST" and "SOUTH", "SOUTH" and "EAST" are not directly opposite of each other and can't become such. Hence the result path is itself : ["NORTH", "WEST", "SOUTH", "EAST"].
+     */
+    public static String[] dirReduc(String[] arr) {
+        if (arr.length <= 1) return arr;
+        LinkedList<String> list = new LinkedList<>();
+        Arrays.stream(arr).forEach(list::add);
+        for(int i = 0; i< list.size()-1; i++) {
+            if(list.get(i).equals("NORTH")&&list.get(i+1).equals("SOUTH") 
+                    || list.get(i).equals("SOUTH")&&list.get(i+1).equals("NORTH") 
+                    || list.get(i).equals("WEST")&&list.get(i+1).equals("EAST") 
+                    || list.get(i).equals("EAST")&&list.get(i+1).equals("WEST") ) { //"NORTHSOUTH,SOUTHNORTH,EASTWEST,WESTEAST".contains(dirs.get(i) + dirs.get(i + 1))
+                list.remove(i+1);
+                list.remove(i);
+                return dirReduc(list.toArray(new String[list.size()]));
+            }
+        }
+        return arr;
+    }
+    public static String[] dirReduc2(String[] arr) {
+        final Stack<String> stack = new Stack<>();
+        for (final String direction : arr) {
+            final String lastElement = stack.size() > 0 ? stack.lastElement() : null;
+            switch(direction) {
+                case "NORTH": if ("SOUTH".equals(lastElement)) { stack.pop(); } else { stack.push(direction); } break;
+                case "SOUTH": if ("NORTH".equals(lastElement)) { stack.pop(); } else { stack.push(direction); } break;
+                case "EAST":  if ("WEST".equals(lastElement)) { stack.pop(); } else { stack.push(direction); } break;
+                case "WEST":  if ("EAST".equals(lastElement)) { stack.pop(); } else { stack.push(direction); } break;
+            }
+        }
+        return stack.stream().toArray(String[]::new);
+    }
+    @Test
+    @SuppressWarnings("deprecation")
+    public void testSimpleDirReduc() throws Exception {
+      assertEquals("\"NORTH\", \"SOUTH\", \"SOUTH\", \"EAST\", \"WEST\", \"NORTH\", \"WEST\"",
+          new String[]{"WEST"},
+          Kata.dirReduc(new String[]{"NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"}));
+
+      assertEquals("\"NORTH\", \"WEST\", \"SOUTH\", \"EAST\"",
+          new String[]{"NORTH", "WEST", "SOUTH", "EAST"},
+          Kata.dirReduc(new String[]{"NORTH", "WEST", "SOUTH", "EAST"}));
+    }
+    
+    public static String decode2(String morseCode) {
+        // your brilliant code here, remember that you can access the preloaded Morse code table through MorseCode.get(code)
+        String[] words = morseCode.split("   ");
+        StringBuffer sb = new StringBuffer();
+        for(String word : words) {
+            String[] letters = word.trim().split(" ");
+            for(String letter : letters) {
+                sb.append(decode(letter));
+            }
+            sb.append(" ");
+        }
+        return sb.substring(0,sb.length()-1);
+    }
+    @Test
+    public void testExampleFromDescription() {
+      assertThat(Kata.decode2(".... . -.--   .--- ..- -.. ."), is("HEY JUDE"));
+    }
+    
+    public static String encode(String toEncode) {
+        String morse = toEncode;
+        if (toEncode.equalsIgnoreCase("a"))
+            morse = ".-";
+        if (toEncode.equalsIgnoreCase("b"))
+            morse = "-...";
+        if (toEncode.equalsIgnoreCase("c"))
+            morse = "-.-.";
+        if (toEncode.equalsIgnoreCase("d"))
+            morse = "-..";
+        if (toEncode.equalsIgnoreCase("e"))
+            morse = ".";
+        if (toEncode.equalsIgnoreCase("f"))
+            morse = "..-.";
+        if (toEncode.equalsIgnoreCase("g"))
+            morse = "--.";
+        if (toEncode.equalsIgnoreCase("h"))
+            morse = "....";
+        if (toEncode.equalsIgnoreCase("i"))
+            morse = "..";
+        if (toEncode.equalsIgnoreCase("j"))
+            morse = ".---";
+        if (toEncode.equalsIgnoreCase("k"))
+            morse = "-.-";
+        if (toEncode.equalsIgnoreCase("l"))
+            morse = ".-..";
+        if (toEncode.equalsIgnoreCase("m"))
+            morse = "--";
+        if (toEncode.equalsIgnoreCase("n"))
+            morse = "-.";
+        if (toEncode.equalsIgnoreCase("o"))
+            morse = "---";
+        if (toEncode.equalsIgnoreCase("p"))
+            morse = ".--.";
+        if (toEncode.equalsIgnoreCase("q"))
+            morse = "--.-";
+        if (toEncode.equalsIgnoreCase("r"))
+            morse = ".-.";
+        if (toEncode.equalsIgnoreCase("s"))
+            morse = "...";
+        if (toEncode.equalsIgnoreCase("t"))
+            morse = "-";
+        if (toEncode.equalsIgnoreCase("u"))
+            morse = "..-";
+        if (toEncode.equalsIgnoreCase("v"))
+            morse = "...-";
+        if (toEncode.equalsIgnoreCase("w"))
+            morse = ".--";
+        if (toEncode.equalsIgnoreCase("x"))
+            morse = "-..-";
+        if (toEncode.equalsIgnoreCase("y"))
+            morse = "-.--";
+        if (toEncode.equalsIgnoreCase("z"))
+            morse = "--..";
+        if (toEncode.equalsIgnoreCase("0"))
+            morse = "-----";
+        if (toEncode.equalsIgnoreCase("1"))
+            morse = ".----";
+        if (toEncode.equalsIgnoreCase("2"))
+            morse = "..---";
+        if (toEncode.equalsIgnoreCase("3"))
+            morse = "...--";
+        if (toEncode.equalsIgnoreCase("4"))
+            morse = "....-";
+        if (toEncode.equalsIgnoreCase("5"))
+            morse = ".....";
+        if (toEncode.equalsIgnoreCase("6"))
+            morse = "-....";
+        if (toEncode.equalsIgnoreCase("7"))
+            morse = "--...";
+        if (toEncode.equalsIgnoreCase("8"))
+            morse = "---..";
+        if (toEncode.equalsIgnoreCase("9"))
+            morse = "----.";
+        if (toEncode.equalsIgnoreCase("."))
+            morse = ".-.-";
+        if (toEncode.equalsIgnoreCase(","))
+            morse = "--..--";
+        if (toEncode.equalsIgnoreCase("?"))
+            morse = "..--..";
+        if (toEncode.equalsIgnoreCase("SOS"))
+            morse = "...---...";
+        if (toEncode.equalsIgnoreCase("!"))
+            morse = "-.-.--";
+        return morse;
+    }
+    
+    public static String decode(String toEncode) {
+        String morse = toEncode;
+        if (toEncode.equalsIgnoreCase(".-"))
+            morse = "A";
+        if (toEncode.equalsIgnoreCase("-..."))
+            morse = "B";
+        if (toEncode.equalsIgnoreCase("-.-."))
+            morse = "C";
+        if (toEncode.equalsIgnoreCase("-.."))
+            morse = "D";
+        if (toEncode.equalsIgnoreCase("."))
+            morse = "E";
+        if (toEncode.equalsIgnoreCase("..-."))
+            morse = "F";
+        if (toEncode.equalsIgnoreCase("--."))
+            morse = "G";
+        if (toEncode.equalsIgnoreCase("...."))
+            morse = "H";
+        if (toEncode.equalsIgnoreCase(".."))
+            morse = "I";
+        if (toEncode.equalsIgnoreCase(".---"))
+            morse = "J";
+        if (toEncode.equalsIgnoreCase("-.-"))
+            morse = "K";
+        if (toEncode.equalsIgnoreCase(".-.."))
+            morse = "L";
+        if (toEncode.equalsIgnoreCase("--"))
+            morse = "M";
+        if (toEncode.equalsIgnoreCase("-."))
+            morse = "N";
+        if (toEncode.equalsIgnoreCase("---"))
+            morse = "O";
+        if (toEncode.equalsIgnoreCase(".--."))
+            morse = "P";
+        if (toEncode.equalsIgnoreCase("--.-"))
+            morse = "Q";
+        if (toEncode.equalsIgnoreCase(".-."))
+            morse = "R";
+        if (toEncode.equalsIgnoreCase("..."))
+            morse = "S";
+        if (toEncode.equalsIgnoreCase("-"))
+            morse = "T";
+        if (toEncode.equalsIgnoreCase("..-"))
+            morse = "U";
+        if (toEncode.equalsIgnoreCase("...-"))
+            morse = "V";
+        if (toEncode.equalsIgnoreCase(".--"))
+            morse = "W";
+        if (toEncode.equalsIgnoreCase("-..-"))
+            morse = "X";
+        if (toEncode.equalsIgnoreCase("-.--"))
+            morse = "Y";
+        if (toEncode.equalsIgnoreCase("--.."))
+            morse = "Z";
+        if (toEncode.equalsIgnoreCase("-----"))
+            morse = "0";
+        if (toEncode.equalsIgnoreCase(".----"))
+            morse = "1";
+        if (toEncode.equalsIgnoreCase("..---"))
+            morse = "2";
+        if (toEncode.equalsIgnoreCase("...--"))
+            morse = "3";
+        if (toEncode.equalsIgnoreCase("....-"))
+            morse = "4";
+        if (toEncode.equalsIgnoreCase("....."))
+            morse = "5";
+        if (toEncode.equalsIgnoreCase("-...."))
+            morse = "6";
+        if (toEncode.equalsIgnoreCase("--..."))
+            morse = "7";
+        if (toEncode.equalsIgnoreCase("---.."))
+            morse = "8";
+        if (toEncode.equalsIgnoreCase("----."))
+            morse = "9";
+        if (toEncode.equalsIgnoreCase("|"))
+            morse = "";
+        if (toEncode.equalsIgnoreCase("...---..."))
+            morse = "SOS";
+        if (toEncode.equalsIgnoreCase("-.-.--"))
+            morse = "!";
+        if (toEncode.equalsIgnoreCase(".-.-"))
+            morse = ".";
+        return morse;
+    }
 }
