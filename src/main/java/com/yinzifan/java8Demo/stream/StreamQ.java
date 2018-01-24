@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import com.yinzifan.entity.Person;
-
 public class StreamQ {
     /**
      * 给定一个数字列表, 返回一个由每个数平方构成的列表 如: [1,2,3,4,5] 返回 [1,4,9,16,25]
