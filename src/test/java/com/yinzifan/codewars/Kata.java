@@ -5,18 +5,13 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import java.awt.Point;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.junit.Test;
@@ -962,4 +957,52 @@ public class Kata {
             morse = ".";
         return morse;
     }
+    
+    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?!@#&()|<>.:=-+*/0123456789";
+    public static String[] flapDisplay(final String[] lines, final int[][] rotors) {
+      int length = ALPHABET.length();
+      String[] result = new String[lines.length];
+      for(int i = 0; i < lines.length; i++) {
+          int[] rotor = rotors[i];
+          StringBuffer sb = new StringBuffer();
+          sb.append(ALPHABET.charAt(rotor[0]+ALPHABET.indexOf(lines[i])));
+          for(int j = 1; j < rotor.length;j++) {
+              rotor[j] += rotor[j-1];
+              String letter = String.valueOf(lines[i].charAt(j));
+              rotor[j] += ALPHABET.indexOf(letter);
+              rotor[j] %= length;
+              sb.append(ALPHABET.charAt(rotor[j]));
+          }
+          result[i] = sb.toString();
+      }
+      return result;
+    }
+
+      @Test
+      public void example() {
+        // CAT => DOG
+        String[] before = new String[]{"CAT"};
+        int[][] rotors = new int[][]{{1,13,27}};
+        String[] after = Kata.flapDisplay(before,rotors);
+        String[] expected = new String[]{"DOG"};
+        assertArrayEquals(expected, after);
+      }
+
+      @Test
+      public void basic() {
+          // HELLO => WORLD!
+          String[] before = new String[]{"HELLO "};
+          int[][] rotors = new int[][]{{15,49,50,48,43,13}};
+          String[] after = Kata.flapDisplay(before,rotors);
+          String[] expected = new String[]{"WORLD!"};
+          assertArrayEquals(expected, after);
+          
+          // CODE => WARS
+          String[] before2 = new String[]{"CODE"};
+          int[][] rotors2 = new int[][]{{20,20,28,0}};
+          String[] after2 = Kata.flapDisplay(before2,rotors2);
+          String[] expected2 = new String[]{"WARS"};
+          assertArrayEquals(expected2, after2);
+      }
+
 }
