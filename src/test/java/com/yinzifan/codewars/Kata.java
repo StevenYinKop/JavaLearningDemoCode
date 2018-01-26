@@ -834,5 +834,5 @@ public class Kata {
           String[] expected2 = new String[]{"WARS"};
           assertArrayEquals(expected2, after2);
       }
-
+      
 }
