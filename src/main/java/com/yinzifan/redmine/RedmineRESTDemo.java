@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import com.taskadapter.redmineapi.CustomFieldManager;
 import com.taskadapter.redmineapi.IssueManager;
-import com.taskadapter.redmineapi.MembershipManager;
 import com.taskadapter.redmineapi.ProjectManager;
 import com.taskadapter.redmineapi.RedmineException;
 import com.taskadapter.redmineapi.RedmineManager;
