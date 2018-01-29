@@ -797,16 +797,14 @@ public class Kata {
       for(int i = 0; i < lines.length; i++) {
 //          "CAT";
           int[] rotor = rotors[i];
-          // [1,13,27]
+          String line = lines[i];
           StringBuffer sb = new StringBuffer();
-          sb.append(ALPHABET.charAt(rotor[0]+ALPHABET.indexOf(lines[i].charAt(0))));
-          // "sb1 : XX.charAt(1 + 2)"
-          for(int j = 1; j < rotor.length;j++) {
+          for(int j = 0; j < rotor.length;j++) {
+        	  if (j > 0)  
               rotor[j] += rotor[j-1];
-              String letter = String.valueOf(lines[i].charAt(j));
-              rotor[j] += ALPHABET.indexOf(letter); // 0
-              int index = rotor[j] % length;
-              sb.append(ALPHABET.charAt(index));
+        	  String currentLetter = line.charAt(j)+"";
+        	  int index = ALPHABET.indexOf(currentLetter);
+        	  sb.append(ALPHABET.charAt((rotor[j] + index)%length));
           }
           result[i] = sb.toString();
       }
@@ -819,7 +817,7 @@ public class Kata {
         String[] before = new String[]{"CAT"};
         int[][] rotors = new int[][]{{1,13,27}};
         String[] after = Kata.flapDisplay(before,rotors);
-        String[] expected = new String[]{"DOG"};
+        String[] expected = new String[]{"DOG"}; //1+2  1+13+1 1+13+27+20
         assertArrayEquals(expected, after);
       }
 
