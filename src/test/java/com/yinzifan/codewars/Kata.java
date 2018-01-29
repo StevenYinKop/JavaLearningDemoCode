@@ -787,21 +787,26 @@ public class Kata {
     public void testExampleFromDescription() {
       assertThat(Kata.decode(".... . -.--   .--- ..- -.. ."), is("HEY JUDE"));
     }
-    
+    /*
+     * -----------------------------------------------------------------------
+     */
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?!@#&()|<>.:=-+*/0123456789";
     public static String[] flapDisplay(final String[] lines, final int[][] rotors) {
       int length = ALPHABET.length();
       String[] result = new String[lines.length];
       for(int i = 0; i < lines.length; i++) {
+//          "CAT";
           int[] rotor = rotors[i];
+          // [1,13,27]
           StringBuffer sb = new StringBuffer();
-          sb.append(ALPHABET.charAt(rotor[0]+ALPHABET.indexOf(lines[i])));
+          sb.append(ALPHABET.charAt(rotor[0]+ALPHABET.indexOf(lines[i].charAt(0))));
+          // "sb1 : XX.charAt(1 + 2)"
           for(int j = 1; j < rotor.length;j++) {
               rotor[j] += rotor[j-1];
               String letter = String.valueOf(lines[i].charAt(j));
-              rotor[j] += ALPHABET.indexOf(letter);
-              rotor[j] %= length;
-              sb.append(ALPHABET.charAt(rotor[j]));
+              rotor[j] += ALPHABET.indexOf(letter); // 0
+              int index = rotor[j] % length;
+              sb.append(ALPHABET.charAt(index));
           }
           result[i] = sb.toString();
       }
