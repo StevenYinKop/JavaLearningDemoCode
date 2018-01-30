@@ -795,7 +795,6 @@ public class Kata {
       int length = ALPHABET.length();
       String[] result = new String[lines.length];
       for(int i = 0; i < lines.length; i++) {
-//          "CAT";
           int[] rotor = rotors[i];
           String line = lines[i];
           StringBuffer sb = new StringBuffer();
