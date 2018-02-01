@@ -144,7 +144,7 @@ public class ValidateCode {
      * @param args 
      */  
     public static void main(String[] args) {  
-        ValidateCode vCode = new ValidateCode(160,40,7,150);  
+        ValidateCode vCode = new ValidateCode(200,40,6,1000);  
         try {  
             String path="D:/"+new Date().getTime()+".png";  
             System.out.println(vCode.getCode()+" >"+path);  
