@@ -1,6 +1,7 @@
-package com.yinzifan;
+package com.yinzifan.algorithm;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Objects;
 
 public class RBTree<T extends Comparable<T>> {
     private final static boolean RED = true;
@@ -300,7 +301,7 @@ public class RBTree<T extends Comparable<T>> {
         TreeNode<T> left;
         TreeNode<T> right;
         T value;
-        boolean color;
+        boolean color;  
         
         public TreeNode(TreeNode<T> parent, TreeNode<T> left, TreeNode<T> right, T value) {
             this.parent = parent;

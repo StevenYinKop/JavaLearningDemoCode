@@ -10,14 +10,20 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 格式化数据
+ * 格式化数据工具类
  * 
- * @author yinzf2 2017/09/25 13:46:52
+ * @author CinCommon 2017/09/25 13:46:52
  */
 public class DataFormat {
-    
-//    private static final Logger LOGGER = LoggerFactory.getLogger(DataFormat.class);
-    
+    /**
+     * 时间值为 : 2100-01-01 00:00:00
+     */
+    public static final long DEFAULTENDDATE = 4102416000000L;
+    /**
+     * 一天的毫秒值: <b>如:</b><br>
+     * 2000年1月1日 00:00:00 + <code>ONEDAYMILLIS</code> = 2000年1月2日 00:00:00
+     */
+    public static final long ONEDAYMILLIS = 86400000L;
     /**
      * 私有构造
      */
@@ -25,14 +31,8 @@ public class DataFormat {
     }
     
     /**
-     * 
-     * <p>
      * Title: TimeStamp2Date
-     * </p>
-     * <p>
      * description:
-     * </p>
-     * 
      * @param date
      * @return
      */
@@ -227,14 +227,8 @@ public class DataFormat {
     }
     
     /**
-     * 
-     * <p>
      * Title: IterableToList
-     * </p>
-     * <p>
      * description: 将iterable集合转换为list, 为了用于JPA查询后返回的值的类型转换
-     * </p>
-     * 
      * @param iterable
      * @return 转换好的List<T>集合
      */
@@ -243,15 +237,5 @@ public class DataFormat {
         iterable.forEach(list::add);
         return list;
     }
-    
-    /**
-     * 时间值为 : 2100-01-01 00:00:00
-     */
-    public static final long DEFAULTENDDATE = 4102416000000l;
-    /**
-     * 一天的毫秒值: <b>如:</b><br>
-     * 2000年1月1日 00:00:00 + <code>ONEDAYMILLIS</code> = 2000年1月2日 00:00:00
-     */
-    public static final long ONEDAYMILLIS = 86400000l;
     
 }
