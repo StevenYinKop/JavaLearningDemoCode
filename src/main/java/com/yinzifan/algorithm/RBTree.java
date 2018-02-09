@@ -301,7 +301,7 @@ public class RBTree<T extends Comparable<T>> {
         TreeNode<T> left;
         TreeNode<T> right;
         T value;
-        boolean color;  
+        boolean color;
         
         public TreeNode(TreeNode<T> parent, TreeNode<T> left, TreeNode<T> right, T value) {
             this.parent = parent;

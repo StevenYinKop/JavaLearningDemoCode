@@ -31,7 +31,7 @@ public class JuheDemo {
     public static void getRequest1(){
         String result =null;
         String url ="http://web.juhe.cn:8080/constellation/getAll";//请求接口地址
-        Map params = new HashMap();//请求参数
+        Map<String, Object> params = new HashMap<>();//请求参数
             params.put("key",APPKEY);//应用APPKEY(应用详细页查询)
             params.put("consName","巨蟹座");//星座名称，如:白羊座
             params.put("type","today");//运势类型：today,tomorrow,week,nextweek,month,year
@@ -62,7 +62,7 @@ public class JuheDemo {
      * @return  网络请求字符串
      * @throws Exception
      */
-    public static String net(String strUrl, Map params,String method) throws Exception {
+    public static String net(String strUrl, Map<String, Object> params,String method) throws Exception {
         HttpURLConnection conn = null;
         BufferedReader reader = null;
         String rs = null;
@@ -115,7 +115,7 @@ public class JuheDemo {
     //将map型转为请求参数型
     public static String urlencode(Map<String,Object>data) {
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry i : data.entrySet()) {
+        for (Map.Entry<String, Object> i : data.entrySet()) {
             try {
                 sb.append(i.getKey()).append("=").append(URLEncoder.encode(i.getValue()+"","UTF-8")).append("&");
             } catch (UnsupportedEncodingException e) {
