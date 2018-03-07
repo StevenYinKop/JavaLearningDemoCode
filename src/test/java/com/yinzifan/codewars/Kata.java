@@ -787,7 +787,9 @@ public class Kata {
     public void testExampleFromDescription() {
       assertThat(Kata.decode(".... . -.--   .--- ..- -.. ."), is("HEY JUDE"));
     }
-    
+    /*
+     * -----------------------------------------------------------------------
+     */
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ?!@#&()|<>.:=-+*/0123456789";
     public static String[] flapDisplay(final String[] lines, final int[][] rotors) {
       int length = ALPHABET.length();
