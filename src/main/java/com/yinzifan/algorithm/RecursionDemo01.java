@@ -65,7 +65,7 @@ class Node{
  * 递归函数测试
  * Created by Ay on 2016/7/2.
  */
-public class RecursionDemo {
+public class RecursionDemo01 {
 
     public static String nodeName = "";
 
