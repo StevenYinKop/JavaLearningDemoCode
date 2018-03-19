@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import com.yinzifan.entity.Person;
+
 /**
  * @author yinzf2 2018/03/19 17:43:25
  */
@@ -26,4 +28,11 @@ public class Compare {
         }
         return null;
     }
+    
+    public static void main(String[] args) {
+		Person p1 = new Person();
+		Person p2 = new Person();
+		
+		
+	}
 }
