@@ -1,6 +1,6 @@
 package com.yinzifan.architects.$01_thread;
 
-public class StringLock {
+public class _03_StringLock {
 
 	public void method() {
 		synchronized ("字符串") {
@@ -18,7 +18,7 @@ public class StringLock {
 	}
 
 	public static void main(String[] args) {
-		final StringLock stringLock = new StringLock();
+		final _03_StringLock stringLock = new _03_StringLock();
 		Thread t1 = new Thread(() -> stringLock.method(), "t1");
 		Thread t2 = new Thread(() -> stringLock.method(), "t2");
 		// 这时的运行结果,仅仅是t1不停地开始和结束。

@@ -1,6 +1,6 @@
 package com.yinzifan.architects.$01_thread;
 
-public class ChangeLock {
+public class _04_ChangeLock {
 
 	private String lock = "lock";
 	private void method() {
@@ -17,7 +17,7 @@ public class ChangeLock {
 	}
 	
 	public static void main(String[] args) {
-		final ChangeLock changeLock = new ChangeLock();
+		final _04_ChangeLock changeLock = new _04_ChangeLock();
 		Thread t1 = new Thread(()-> changeLock.method(), "t1");
 		Thread t2 = new Thread(()-> changeLock.method(), "t2");
 		t1.start();

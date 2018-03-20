@@ -1,6 +1,6 @@
 package com.yinzifan.architects.$01_thread;
 
-public class ObjectLock {
+public class _02_ObjectLock {
 	public void method1() {
 		synchronized (this) { // 对象锁
 			try {
@@ -13,7 +13,7 @@ public class ObjectLock {
 	}
 
 	public void method2() {
-		synchronized (ObjectLock.class) { // 类锁
+		synchronized (_02_ObjectLock.class) { // 类锁
 			try {
 				System.out.println("do method2....");
 				Thread.sleep(2000);
@@ -37,7 +37,7 @@ public class ObjectLock {
 	}
 
 	public static void main(String[] args) {
-		final ObjectLock objLock = new ObjectLock();
+		final _02_ObjectLock objLock = new _02_ObjectLock();
 		Thread t1 = new Thread(() -> objLock.method1());
 		Thread t2 = new Thread(() -> objLock.method2());
 		Thread t3 = new Thread(() -> objLock.method3());

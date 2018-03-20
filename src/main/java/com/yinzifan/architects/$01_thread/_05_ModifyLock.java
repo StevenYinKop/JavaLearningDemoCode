@@ -1,6 +1,6 @@
 package com.yinzifan.architects.$01_thread;
 
-public class ModifyLock {
+public class _05_ModifyLock {
 	private String name;
 	private int age;
 
@@ -34,7 +34,7 @@ public class ModifyLock {
 	}
 
 	public static void main(String[] args) {
-		final ModifyLock modifyLock = new ModifyLock();
+		final _05_ModifyLock modifyLock = new _05_ModifyLock();
 		Thread t1 = new Thread(() -> modifyLock.changeAttributte("张三", 23), "t1");
 		Thread t2 = new Thread(() -> modifyLock.changeAttributte("李四", 24), "t2");
 
