@@ -1,16 +1,13 @@
 package com.yinzifan.compare;
 
 import java.lang.reflect.Field;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
-import com.yinzifan.entity.Person;
 import org.slf4j.LoggerFactory;
 
 
@@ -62,6 +59,17 @@ public class Compare {
         LocalDate d1 = LocalDate.now();
         LocalDate d2 = LocalDate.parse("2018-04-18");
         System.out.println(d1.compareTo(d2));
+        List<String> user = new ArrayList<>();
+        user.add("a");
+        user.add("b");
+        user.add("c");
+        user.add("d");
+        user.add("e");
+        user.add("f");
+        String[] array = user.stream().toArray(String[]::new);
+        System.out.println(Arrays.toString(array));
+        
+        
         
 //        List<String> lists = new ArrayList<>(); 
 //        lists.add("s");
