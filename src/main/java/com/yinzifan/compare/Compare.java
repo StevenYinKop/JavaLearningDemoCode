@@ -1,21 +1,18 @@
 package com.yinzifan.compare;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 
 
 /**
  * @author yinzf2 2018/03/19 17:43:25
  */
 public class Compare {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Compare.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(Compare.class);
     public static <T> String diff(T t1, T t2, String... ignoreProperties)
             throws NoSuchMethodException, SecurityException, IllegalArgumentException, IllegalAccessException {
         
@@ -56,18 +53,32 @@ public class Compare {
     
     public static void main(String[] args) throws NoSuchMethodException, SecurityException, IllegalArgumentException, IllegalAccessException {
         
-        LocalDate d1 = LocalDate.now();
-        LocalDate d2 = LocalDate.parse("2018-04-18");
-        System.out.println(d1.compareTo(d2));
-        List<String> user = new ArrayList<>();
-        user.add("a");
-        user.add("b");
-        user.add("c");
-        user.add("d");
-        user.add("e");
-        user.add("f");
-        String[] array = user.stream().toArray(String[]::new);
-        System.out.println(Arrays.toString(array));
+        String a = ",qwe,qweq,";
+        System.out.println(Arrays.toString(a.split(",")));
+        System.out.println(Arrays.toString(StringUtils.splitByCharacterType(a)));
+        System.out.println(Arrays.toString(StringUtils.splitByWholeSeparator(a, ",")));
+        System.out.println(Arrays.toString(StringUtils.split(a, ",")));
+        System.out.println(Arrays.toString(StringUtils.splitByWholeSeparatorPreserveAllTokens(a, ",")));
+        
+//        boolean flag = DataFormat.stringArrayCompare(new String[]{"a", "e", "c", "b"}, new String[]{"a", "c", "b", "c"});
+//        System.out.println(flag);
+        
+        
+        
+//        LocalDate d1 = LocalDate.now();
+//        LocalDate d2 = LocalDate.parse("2018-04-18");
+//        System.out.println(d1.compareTo(d2));
+//        List<String> user = new ArrayList<>();
+//        user.add("a");
+//        user.add("b");
+//        user.add("c");
+//        user.add("d");
+//        user.add("e");
+//        user.add("f");
+//        String[] array = user.stream().toArray(String[]::new);
+//        System.out.println(Arrays.toString(array));
+        
+        
         
         
         

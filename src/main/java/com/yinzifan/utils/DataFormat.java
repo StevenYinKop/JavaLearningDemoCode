@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -237,5 +238,25 @@ public class DataFormat {
         iterable.forEach(list::add);
         return list;
     }
+    
+    public static boolean stringArrayCompare(String[] b, String[] c) {  
+        if(b == c) return true;
+        if(b == null || c == null) return false;
+        int blength = b.length;
+        if (blength != c.length) return false;
+        boolean flag = false;
+        for(int i = 0 ; i < blength; i++) {
+            for(int j = 0 ; j < blength; j++) {
+                String s = b[i];
+                if(s.equals(c[j])) {
+                    flag = true;  
+                    break;  
+                } else {
+                    flag = false;  
+                }
+            }
+        }
+        return flag;  
+    }  
     
 }
