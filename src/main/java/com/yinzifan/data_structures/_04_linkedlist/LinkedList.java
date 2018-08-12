@@ -121,12 +121,40 @@ public class LinkedList<T> {
 		return false;
 	}
 	
-	public void remove(int index) {
+	public T remove(int index) {
 		if(index < 0 || index >= size) {
 			throw new ArrayIndexOutOfBoundsException();
 		}
+		Node pre = dummyHead;
+		for(int i = 0; i < index ; i ++) {
+			pre = pre.next;
+		}
+		Node retNode = pre.next;
+		
+		pre.next = retNode.next;
+		retNode.next = null;
+		size --;
+		return retNode.t;
 	}
+	public T removeFirst() {
+		return remove(0);
+	}	
+	public T removeLast() {
+		return remove(size - 1);
+	}	
 	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("LinkedList: [ ");
+		Node node = dummyHead.next;
+		while(node != null) {
+			sb.append(node.t.toString() + " -> ");
+			node = node.next;
+		}
+		return sb.append("NULL ]").toString();
+	}
+
 	private class Node {
 		public T t;
 		public Node next;
@@ -135,7 +163,7 @@ public class LinkedList<T> {
 			this.t = t;
 			this.next = next;
 		}
-		public Node(T t) { this(t, null); }
+//		public Node(T t) { this(t, null); }
 		public Node() { this(null,null); }
 		@Override
 		public String toString() {
