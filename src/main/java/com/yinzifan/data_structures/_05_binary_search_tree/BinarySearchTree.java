@@ -20,28 +20,20 @@ public class BinarySearchTree<T extends Comparable<T>> {
 			root = new Node(t);
 			size ++;
 		} else {
-			add(root, t);
+			this.root = add(this.root, t);
 		}
 	}
 	
-	private void add(Node root, T t) {
-		if(t.equals(root.t)) {
-			return;
-		} else if(t.compareTo(root.t) < 0) {
-			if(root.left == null) {
-				root.left = new Node(t);
-				size ++;
-				return;
-			}
-			add(root.left, t);
-		} else if(t.compareTo(root.t) > 0) {
-			if( root.right == null) {
-				root.right = new Node(t);
-				size ++;
-				return;
-			}
-			add(root.right, t);
+	private Node add(Node root, T t) {
+		if(root == null) {
+			return new Node(t);
 		}
+		if(t.compareTo(root.t) < 0) {
+			root.left = add(root.left, t);
+		} else if (t.compareTo(root.t) > 0) {
+			root.right = add(root.right, t);
+		}
+		return root;
 	}
 	
 	private class Node{
