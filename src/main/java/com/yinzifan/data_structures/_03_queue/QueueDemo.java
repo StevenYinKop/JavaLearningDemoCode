@@ -1,10 +1,13 @@
 package com.yinzifan.data_structures._03_queue;
 
+import com.yinzifan.data_structures._04_linkedlist.LinkedListQueue;
+
 public class QueueDemo {
 	private static final int CNT = 200000;
 	public static void main(String[] args) {
-		System.out.println("spend: " + test(new LoopQueue<>(), CNT) + "s");
-		System.out.println("spend: " + test(new ArrayQueue<>(), CNT) + "s");
+		System.out.println("ArrayQueue: spend: " + test(new ArrayQueue<>(), CNT) + "s");
+		System.out.println("LoopQueue: spend: " + test(new LoopQueue<>(), CNT) + "s");
+		System.out.println("LinkedListQueue: spend: " + test(new LinkedListQueue<>(), CNT) + "s");
 	}
 	private static double test(Queue<Integer> queue, int cnt) {
 		long startTime1 = System.currentTimeMillis();
