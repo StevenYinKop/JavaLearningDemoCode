@@ -13,6 +13,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
 		root = null;
 		size = 0;
 	}
+	public void clear() {
+		root = null;
+		size = 0;
+	}
 	public int getSize() {
 		return size;
 	}
@@ -51,7 +55,6 @@ public class BinarySearchTree<T extends Comparable<T>> {
 		} else if(t.compareTo(node.t) > 0) {
 			return contains(node.right, t);
 		} else {
-//		if(t.compareTo(node.t) < 0) {
 			return contains(node.left, t);
 		}
 	}
@@ -148,6 +151,114 @@ public class BinarySearchTree<T extends Comparable<T>> {
 		}
 	}
 	
+	public T getMin() {
+		if(root == null) {
+			return null;
+		}
+		return getMin(root).t;
+	}
+	
+	private Node getMin(BinarySearchTree<T>.Node node) {
+		if(node.left == null) {
+			return node;
+		}
+		return getMin(node.left);
+	}
+	public T getMax() {
+		return getMax(root).t;
+	}
+	
+	private Node getMax(BinarySearchTree<T>.Node node) {
+		if(node.right == null) {
+			return node;
+		}
+		return getMax(node.right);
+	}
+	
+	public T removeMin() {
+		T ret = getMin();
+		root = removeMin(root);
+		return ret;
+	}
+
+	private Node removeMin(BinarySearchTree<T>.Node node) {
+		if(node.left == null) {
+			Node rightNode = node.right;
+			node.right = null;
+			size--;
+			return rightNode;
+		}
+		node.left = removeMin(node.left);
+		return node;
+	}
+	public T removeMax() {
+		T ret = getMax();
+		root = removeMax(root);
+		return ret;
+	}
+	
+	private Node removeMax(BinarySearchTree<T>.Node node) {
+		if(node.right == null) {
+			Node leftNode = node.left;
+			node.left = null;
+			size--;
+			return leftNode;
+		}
+		node.right = removeMax(node.right);
+		return node;
+	}
+	
+	public void remove(T t) {
+		root = remove(root, t);
+	}
+	
+	public Node remove(Node node, T t) {
+		if(node == null) {
+			return null;
+		}
+		if(node.t.compareTo(t) < 0) {
+			node.left = remove(node.left, t);
+			return node;
+		}else if(node.t.compareTo(t) > 0) {
+			node.right = remove(node.right, t);
+			return node;
+		}
+		else {
+			// node.left == null时
+			// 得到node的right
+			// 将node.right置null
+			// size --
+			// 将 rightnode 作为根节点返回
+			if(node.left == null) {
+				Node rightNode = node.right;
+				node.right = null;
+				size --;
+				return rightNode;
+			}
+			
+			// node.right == null时
+			// 得到node的left
+			// 将node.left置null
+			// size --
+			// 将 leftnode 作为根节点返回
+			if(node.right == null) {
+				Node leftNode = node.left;
+				node.left = null;
+				size --;
+				return leftNode;
+			}
+			// 待删除节点左右子树均不为空
+			// 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
+			// 用这个节点顶替待删除节点的位置
+			Node successor = getMin(node.right);
+			successor.right = removeMin(node.right);
+			successor.left = node.left;
+			node.left = node.right = null;
+			return successor;			
+		}
+	}
+
+
 	private class Node{
 		private T t;
 		private Node left;
