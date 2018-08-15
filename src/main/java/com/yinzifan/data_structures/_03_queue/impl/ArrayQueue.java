@@ -1,6 +1,7 @@
-package com.yinzifan.data_structures._03_queue;
+package com.yinzifan.data_structures._03_queue.impl;
 
 import com.yinzifan.data_structures._01_array.Array;
+import com.yinzifan.data_structures._03_queue.Queue;
 
 public class ArrayQueue<T> implements Queue<T> {
 

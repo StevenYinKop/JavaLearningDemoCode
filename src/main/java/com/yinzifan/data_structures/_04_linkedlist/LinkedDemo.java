@@ -1,7 +1,7 @@
 package com.yinzifan.data_structures._04_linkedlist;
 
-import com.yinzifan.data_structures._02_stack.ArrayStack;
 import com.yinzifan.data_structures._02_stack.Stack;
+import com.yinzifan.data_structures._02_stack.impl.ArrayStack;
 
 public class LinkedDemo {
 
@@ -17,6 +17,17 @@ public class LinkedDemo {
 //		System.out.println(stack.toString());
 		System.out.println("spend: " + test(new ArrayStack<>(), CNT) + "s");
 		System.out.println("spend: " + test(new LinkedListStack<>(), CNT) + "s");
+//		LinkedList<Integer> list = new LinkedList<>();
+//		Random random = new Random();
+//		for(int i = 0; i< 100; i ++) {
+//			list.addFirst(random.nextInt(1000));
+//		}
+//		list.addFirst(15);
+//		list.addLast(15);
+//		System.out.println("before remove 15: size= " + list.getSize());
+//		list.removeElement(15);
+//		System.out.println("after remove 15: size= " + list.getSize());
+//		System.out.println(list.toString());
 	}
 	private static double test(Stack<Integer> stack, int cnt) {
 		long startTime1 = System.currentTimeMillis();

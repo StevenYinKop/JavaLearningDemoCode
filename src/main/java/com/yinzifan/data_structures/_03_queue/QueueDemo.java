@@ -1,5 +1,7 @@
 package com.yinzifan.data_structures._03_queue;
 
+import com.yinzifan.data_structures._03_queue.impl.ArrayQueue;
+import com.yinzifan.data_structures._03_queue.impl.LoopQueue;
 import com.yinzifan.data_structures._04_linkedlist.LinkedListQueue;
 
 public class QueueDemo {

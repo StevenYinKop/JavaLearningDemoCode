@@ -141,7 +141,21 @@ public class LinkedList<T> {
 	}	
 	public T removeLast() {
 		return remove(size - 1);
-	}	
+	}
+	
+	public void removeElement(T t) {
+		Node pre = dummyHead;
+		while(pre.next != null) {
+			Node cur = pre.next;
+			if(t.equals(cur.t)) {
+				pre.next = cur.next;
+				cur.next = null;
+				size--;
+			} else {
+				pre = pre.next;
+			}
+		}
+	}
 	
 	@Override
 	public String toString() {

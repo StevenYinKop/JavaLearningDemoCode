@@ -1,4 +1,6 @@
-package com.yinzifan.data_structures._03_queue;
+package com.yinzifan.data_structures._03_queue.impl;
+
+import com.yinzifan.data_structures._03_queue.Queue;
 
 public class LoopQueue <T> implements Queue<T>{
 

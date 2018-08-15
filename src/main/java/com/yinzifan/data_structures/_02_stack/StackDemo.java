@@ -1,5 +1,7 @@
 package com.yinzifan.data_structures._02_stack;
 
+import com.yinzifan.data_structures._02_stack.impl.ArrayStack;
+
 public class StackDemo {
 	public static void main(String[] args) {
 		Stack<Integer> arr = new ArrayStack<>();

@@ -1,6 +1,7 @@
-package com.yinzifan.data_structures._02_stack;
+package com.yinzifan.data_structures._02_stack.impl;
 
 import com.yinzifan.data_structures._01_array.Array;
+import com.yinzifan.data_structures._02_stack.Stack;
 
 public class ArrayStack<T> implements Stack<T> {
 
