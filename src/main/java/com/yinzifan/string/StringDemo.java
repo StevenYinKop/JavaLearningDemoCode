@@ -20,14 +20,16 @@ public class StringDemo {
 //        System.out.println(s1 == s6.intern());
 //        System.out.println(s2 == s2.intern());
 //    }
-    public static void main(String[] args) {
-        String[] arr = new String[] {"yinzf2", "qiangli"};
-        System.out.println(Arrays.binarySearch(arr, null));
-        
-    }
-    
-    
-    
-    
+    public static void main(String[] args) {  
+        String a = "Programming";  
+        String b = new String("Programming");  
+        String c = "Program" + "ming";  
+          
+        System.out.println(a == b);  
+        System.out.println(a == c);  
+        System.out.println(a.equals(b));  
+        System.out.println(a.equals(c));  
+        System.out.println(a.intern() == b.intern());  
+    }  
     
 }
