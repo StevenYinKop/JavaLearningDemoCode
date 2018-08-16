@@ -14,7 +14,7 @@ public class BSTDemo {
 			bst.add(ran);
 		}
 		System.out.println(bst.toString());
-		MyConsumer consumer = new MyConsumer();
+		Consumer<Integer> consumer = System.out::println;
 		System.out.println("前序遍历: ");
 		bst.preOrder(consumer);
 		System.out.println("中序遍历: ");
