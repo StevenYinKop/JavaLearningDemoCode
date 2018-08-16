@@ -12,9 +12,9 @@ public class BSTDemo {
 			int ran = random.nextInt(100);
 			System.out.println("i = " + i + ", ran: " + ran);
 			bst.add(ran);
-		}
+		} 
 		System.out.println(bst.toString());
-		MyConsumer consumer = new MyConsumer();
+		Consumer<Integer> consumer = System.out::println;
 		System.out.println("前序遍历: ");
 		bst.preOrder(consumer);
 		System.out.println("中序遍历: ");
