@@ -10,7 +10,7 @@ public interface Map<K, V> {
 	
 	V get(K k);
 	
-	void set(K k, V v);
+//	void set(K k, V v);
 	
 	int getSize();
 	

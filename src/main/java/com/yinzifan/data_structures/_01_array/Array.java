@@ -197,6 +197,12 @@ public class Array<T> {
 		}
 	}
 
+	public void swap(int index1, int index2) {
+		T t = data[index1];
+		data[index1] = data[index2];
+		data[index2] = t;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder res = new StringBuilder();
