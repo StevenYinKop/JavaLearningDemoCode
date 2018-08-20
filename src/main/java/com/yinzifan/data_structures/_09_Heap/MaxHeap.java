@@ -14,7 +14,12 @@ public class MaxHeap<T extends Comparable<T>> {
 		data = new Array<>();
 	}
 	
-	
+	public MaxHeap(T[] arr) {
+		data = new Array<>(arr);
+		for(int i = getParentIndex(getSize() - 1); i >= 0; i --) {
+			siftDown(i);
+		}
+	}
 	
 	public int getSize() {
 		return data.getSize();
@@ -61,12 +66,14 @@ public class MaxHeap<T extends Comparable<T>> {
 		int leftChild = getLeftChildIndex(i);
 		int rightChild = getRightChildIndex(i);
 		if(leftChild < getSize()) {
-			if(rightChild < getSize()) {
-				if(data.get(rightChild).compareTo(data.get(leftChild)) > 0) {
-					siftDown(rightChild);
-				}
-			} else {
-				siftDown(leftChild);
+			int j = leftChild;
+			if(rightChild < getSize() 
+					&& data.get(rightChild).compareTo(data.get(leftChild)) > 0) {
+				j = rightChild;
+			}
+			if(data.get(i).compareTo(data.get(j)) < 0) {
+				data.swap(j, i);
+				siftDown(j);
 			}
 		}
 	}

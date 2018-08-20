@@ -19,6 +19,16 @@ public class Array<T> {
 	public Array() {
 		this(10);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Array(T[] arr) {
+		size = arr.length;
+		data = (T[]) new Object[size];
+		for(int i = 0; i < size; i ++) {
+			data[i] = arr[i];
+		}
+	}
+
 
 	/**
 	 * 

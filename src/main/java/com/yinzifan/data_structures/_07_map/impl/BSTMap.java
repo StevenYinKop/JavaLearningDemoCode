@@ -1,6 +1,5 @@
 package com.yinzifan.data_structures._07_map.impl;
 
-import com.yinzifan.data_structures._05_binary_search_tree.BinarySearchTree;
 import com.yinzifan.data_structures._07_map.Map;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
@@ -215,20 +214,20 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 		private Node left;
 		private Node right;
 
-		public Node() {
-		}
+//		public Node() {
+//		}
 
 		public Node(K k, V v) {
 			this.k = k;
 			this.v = v;
 		}
 
-		public Node(K k, V v, Node left, Node right) {
-			this.k = k;
-			this.v = v;
-			this.left = left;
-			this.right = right;
-		}
+//		public Node(K k, V v, Node left, Node right) {
+//			this.k = k;
+//			this.v = v;
+//			this.left = left;
+//			this.right = right;
+//		}
 
 		@Override
 		public String toString() {
