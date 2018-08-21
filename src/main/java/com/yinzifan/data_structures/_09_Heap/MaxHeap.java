@@ -88,4 +88,11 @@ public class MaxHeap<T extends Comparable<T>> {
 		}
 	}
 	
+	public T replace(T t) {
+		T ret = findMax();
+		data.set(0, t);
+		siftDown(0);
+		return ret;
+	}
+	
 }
