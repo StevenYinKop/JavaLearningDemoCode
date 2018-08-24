@@ -18,10 +18,10 @@ public class SegmentTreeDemo {
 				return t1 < t2 ? t2 : t1;
 			}
 		});
-//		if(segmentTree.get(0) == max) {
-//			System.out.println("???????????");
-//		}
-//		System.out.println("segmentTree.get(0) = " + segmentTree.get(0));
-//		System.out.println("max = " + max);
+		if(segmentTree.get(0) == max) {
+			System.out.println("Test complete");
+		}
+		System.out.println("segmentTree.get(0) = " + segmentTree.get(0));
+		System.out.println("max = " + max);
 	}
 }
