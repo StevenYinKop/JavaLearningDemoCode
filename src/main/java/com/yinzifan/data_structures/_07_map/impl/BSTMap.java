@@ -5,19 +5,6 @@ import com.yinzifan.data_structures._07_map.Map;
 public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 	private Node root;
 	private int size;
-
-	/*
-	 * 	getMin()
-		getMin(Node)
-		getMax()
-		getMax(Node)
-		removeMin()
-		removeMin(Node)
-		removeMax()
-		removeMax(Node)
-		remove(T)
-		remove(Node, T)
-	 */
 	
 	public BSTMap() {
 		root = null;
@@ -34,9 +21,9 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 			size++;
 			return new Node(k, v);
 		}
-		if(k.compareTo(node.k) > 0) {
+		if(node.k.compareTo(k) > 0) {
 			return add(node.left, k, v);
-		} else if(k.compareTo(node.k) < 0) {
+		} else if(node.k.compareTo(k) < 0) {
 			return add(node.right, k, v);
 		} else {
 			node.v = v;
@@ -80,7 +67,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 
 	@Override
 	public V get(K k) {
-		return null;
+		return getNode(root, k) == null ? null : getNode(root, k).v;
 	}
 
 	@Override
