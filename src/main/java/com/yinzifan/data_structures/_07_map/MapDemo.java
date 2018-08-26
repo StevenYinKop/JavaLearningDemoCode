@@ -35,6 +35,17 @@ public class MapDemo {
     }
 
     public static void main(String[] args) {
+    	
+//    	BSTMap<Integer, Integer> bstMap = new BSTMap<>();
+//		int[] arr = new int[] { 13, 28, 77, 78, 3, 73, 24, 28, 13, 3, 89, 100, 1, 2, 28, 1 };
+//		for (int i = 0; i < arr.length; i++) {
+//			int r = arr[i];
+//			System.out.println("Random: " + r);
+//			bstMap.add(r, bstMap.contains(r) ? bstMap.get(r) + 1 : 1);
+//		}
+//		System.out.println("Tree Size: " + bstMap.getSize());
+//		System.out.println("Frequency of 13: " + bstMap.get(13));
+//		System.out.println("Frequency of 28: " + bstMap.get(28));
 
         String filename = "src/main/resources/pride-and-prejudice.txt";
 
@@ -42,16 +53,16 @@ public class MapDemo {
         double time1 = testMap(bstMap, filename);
         System.out.println("BST Map: " + time1 + " s");
 
-//        System.out.println();
-//
-//        LinkedListMap<String, Integer> linkedListMap = new LinkedListMap<>();
-//        double time2 = testMap(linkedListMap, filename);
-//        System.out.println("Linked List Map: " + time2 + " s");
-//        System.out.println();
-//        
-//        AVLMap<String, Integer> avlMap = new AVLMap<>();
-//        double time3 = testMap(avlMap, filename);
-//        System.out.println("AVL Map: " + time3 + " s");
+        System.out.println();
+
+        LinkedListMap<String, Integer> linkedListMap = new LinkedListMap<>();
+        double time2 = testMap(linkedListMap, filename);
+        System.out.println("Linked List Map: " + time2 + " s");
+        System.out.println();
+        
+        AVLMap<String, Integer> avlMap = new AVLMap<>();
+        double time3 = testMap(avlMap, filename);
+        System.out.println("AVL Map: " + time3 + " s");
 
         
     }

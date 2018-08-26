@@ -22,9 +22,9 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
 			return new Node(k, v);
 		}
 		if(node.k.compareTo(k) > 0) {
-			return add(node.left, k, v);
+			node.left = add(node.left, k, v);
 		} else if(node.k.compareTo(k) < 0) {
-			return add(node.right, k, v);
+			node.right = add(node.right, k, v);
 		} else {
 			node.v = v;
 		}
