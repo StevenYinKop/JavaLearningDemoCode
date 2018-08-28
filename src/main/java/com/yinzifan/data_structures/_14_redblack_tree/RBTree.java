@@ -1,7 +1,6 @@
 package com.yinzifan.data_structures._14_redblack_tree;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import com.yinzifan.data_structures._03_queue.Queue;
 import com.yinzifan.data_structures._04_linkedlist.LinkedListQueue;
@@ -24,16 +23,40 @@ public class RBTree<K extends Comparable<K>, V> {
 	public boolean isEmpty() {
 		return size == 0;
 	}
+	
+	private boolean isRed(Node node) {
+		if(node == null) {
+			return BLACK;
+		}
+		return node.color;
+	}
 
+	private Node leftRotate(Node node) {
+		Node x= node.right;
+		node.right = x.left;
+		x.left = node;
+		
+		x.color = node.color;
+		node.color = RED;
+		return x;
+	}
+	
+	private void flipColor(Node node) {
+		node.color = RED;
+		node.left.color = BLACK;
+		node.right.color = BLACK;
+	}
+	
 	public void add(K k, V v) {
 		this.root = add(this.root, k, v);
+		this.root.color = BLACK;
 	}
 	
 	private Node add(Node root, K k, V v) {
 		if(root == null) {
 			size ++;
 			return new Node(k, v);
-		}
+		} 
 		if(k.compareTo(root.k) < 0) {
 			root.left = add(root.left, k, v);
 		} else if (k.compareTo(root.k) > 0) {
