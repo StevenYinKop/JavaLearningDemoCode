@@ -30,7 +30,11 @@ public class RBTree<K extends Comparable<K>, V> {
 		}
 		return node.color;
 	}
-
+    //   node                     x
+    //  /   \     左旋转         /  \
+    // T1   x   --------->   node   T3
+    //     / \              /   \
+    //    T2 T3            T1   T2
 	private Node leftRotate(Node node) {
 		Node x= node.right;
 		node.right = x.left;
@@ -45,6 +49,19 @@ public class RBTree<K extends Comparable<K>, V> {
 		node.color = RED;
 		node.left.color = BLACK;
 		node.right.color = BLACK;
+	}
+    //     node                   x
+    //    /   \     右旋转       /  \
+    //   x    T2   ------->   y   node
+    //  / \                       /  \
+    // y  T1                     T1  T2
+	private Node rightRotate(Node node) {
+		Node x = node.left;
+		node.left = x.right;
+		x.right = node;
+		x.color = node.color;
+		node.color = RED;
+		return node;
 	}
 	
 	public void add(K k, V v) {
