@@ -4,8 +4,9 @@ import java.util.function.BiConsumer;
 
 import com.yinzifan.data_structures._03_queue.Queue;
 import com.yinzifan.data_structures._04_linkedlist.LinkedListQueue;
+import com.yinzifan.data_structures._07_map.Map;
 
-public class RBTree<K extends Comparable<K>, V> {
+public class RBTree<K extends Comparable<K>, V> implements Map<K, V> {
 	
 	private Node root;
 	private int size;
@@ -31,7 +32,7 @@ public class RBTree<K extends Comparable<K>, V> {
 		return node.color;
 	}
     //   node                     x
-    //  /   \     左旋转         /  \
+    //  /   \     左旋转         		/  \
     // T1   x   --------->   node   T3
     //     / \              /   \
     //    T2 T3            T1   T2
@@ -51,7 +52,7 @@ public class RBTree<K extends Comparable<K>, V> {
 		node.right.color = BLACK;
 	}
     //     node                   x
-    //    /   \     右旋转       /  \
+    //    /   \     右旋转       		/  \
     //   x    T2   ------->   y   node
     //  / \                       /  \
     // y  T1                     T1  T2
@@ -61,25 +62,37 @@ public class RBTree<K extends Comparable<K>, V> {
 		x.right = node;
 		x.color = node.color;
 		node.color = RED;
-		return node;
+		return x;
 	}
-	
+	@Override
 	public void add(K k, V v) {
 		this.root = add(this.root, k, v);
 		this.root.color = BLACK;
 	}
 	
-	private Node add(Node root, K k, V v) {
-		if(root == null) {
+	private Node add(Node node, K k, V v) {
+		if(node == null) {
 			size ++;
 			return new Node(k, v);
 		} 
-		if(k.compareTo(root.k) < 0) {
-			root.left = add(root.left, k, v);
-		} else if (k.compareTo(root.k) > 0) {
-			root.right = add(root.right, k, v);
+		if(k.compareTo(node.k) < 0) {
+			node.left = add(node.left, k, v);
+		} else if (k.compareTo(node.k) > 0) {
+			node.right = add(node.right, k, v);
+		} else {
+			node.v = v;
 		}
-		return root;
+		
+		if(!isRed(node.left) && isRed(node.right)) {
+			node = leftRotate(node);
+		}
+		if(isRed(node.left) && isRed(node.left.left)) {
+			node = rightRotate(node);
+		}
+		if(isRed(node.left) && isRed(node.right)) {
+			flipColor(node);
+		}
+		return node;
 	}
 	
 	public boolean contains(K k) {
@@ -168,10 +181,10 @@ public class RBTree<K extends Comparable<K>, V> {
 			sb.append("--");
 		}
 		if(node == null) {
-			sb.append("NULL\n");
+			sb.append("NULL(B)\n");
 			return sb.toString();
 		}
-		sb.append(node.k.toString() + "\n");
+		sb.append(node.k.toString() + "(" + (node.color ? "R" : "B") + ")" + "\n");
 		toString(node.left, dept + 1, sb);
 		toString(node.right, dept + 1, sb);
 		return sb.toString();
@@ -249,8 +262,13 @@ public class RBTree<K extends Comparable<K>, V> {
 		return node;
 	}
 	
-	public void remove(K k) {
+	public V remove(K k) {
+		Node node = getNode(root, k);
+		if(node == null) {
+			return null;
+		}
 		root = remove(root, k);
+		return node.v;
 	}
 	
 	public Node remove(Node node, K k) {
@@ -297,9 +315,27 @@ public class RBTree<K extends Comparable<K>, V> {
 			node.left = node.right = null;
 			return successor;			
 		}
+		
 	}
 
+	public V get(K k) {
+		Node node = getNode(root, k);
+		return node == null ? null : node.v; 
+	}
 
+	
+	private RBTree<K, V>.Node getNode(RBTree<K, V>.Node node, K k) {
+		if(node == null) {
+			return null;
+		}
+		if(node.k.compareTo(k) > 0) {
+			return getNode(node.left, k);
+		} else if(node.k.compareTo(k) < 0) {
+			return getNode(node.right, k);
+		} else {
+			return node;
+		}
+	}
 	private static final boolean RED = true;
 	private static final boolean BLACK = false;
 	
@@ -318,4 +354,5 @@ public class RBTree<K extends Comparable<K>, V> {
 			color = RED;
 		}
 	}
+
 }

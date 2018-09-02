@@ -2,7 +2,9 @@ package com.yinzifan.data_structures._13_avl_tree;
 
 import java.util.ArrayList;
 
-public class AVLTree<K extends Comparable<K>, V> {
+import com.yinzifan.data_structures._07_map.Map;
+
+public class AVLTree<K extends Comparable<K>, V> implements Map<K, V>{
 	private Node root;
 	private int size;
 	private int height;
