@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.yinzifan.data_structures._07_map.impl.AVLMap;
 import com.yinzifan.data_structures._07_map.impl.BSTMap;
-import com.yinzifan.data_structures._07_map.impl.LinkedListMap;
 import com.yinzifan.data_structures._14_redblack_tree.RBTree;
+import com.yinzifan.data_structures._15_hashcode.HashTable;
 import com.yinzifan.data_structures.utils.FileOperation;
 
 public class MapDemo {
@@ -68,6 +68,10 @@ public class MapDemo {
         RBTree<String, Integer> rbTree = new RBTree<>();
         double time4 = testMap(rbTree, filename);
         System.out.println("RBTree Map: " + time4 + " s");
+        
+        HashTable<String, Integer> hashTable = new HashTable<>();
+        double time5 = testMap(hashTable, filename);
+        System.out.println("RBTree Map: " + time5 + " s");
         
     }
 }
