@@ -86,6 +86,12 @@
 		    <artifactId>activemq-all</artifactId>
 		    <version>5.15.4</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.xbean/xbean-spring -->
+		<dependency>
+		    <groupId>org.apache.xbean</groupId>
+		    <artifactId>xbean-spring</artifactId>
+		    <version>4.5</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
