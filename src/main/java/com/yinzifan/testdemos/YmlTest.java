@@ -27,7 +27,6 @@ public class YmlTest {
 		map.put("spring.datasource.username", "ENC(077GOkbA/NaU3Ahs47wdVw==)");
 		map.put("spring.datasource.password", "ENC(Lkbx0F0SZ9yweeCZGZbTq86CuFmiKBtkr2N2pIMbkLY=)");
 		map.put("spring.datasource.url", "ENC(9DqWB84slc+eh742SPz3lc/adeuXeX2pY9GmFzhM1+PGQOTdYBNBvsaYxvrTvS1ctgdm6VLOJFuVkHeQIt2aV75BBZvGVnqzLIG7snNSvB4HQyMiObfSU72ox6ji5sK3)");
-		
 		LinkedHashMap<String, Object> result = generateToYML(map);
 		System.out.println(result);
 	}
