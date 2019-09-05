@@ -1,10 +1,16 @@
 package com.yinzifan.lucene;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
@@ -85,7 +91,27 @@ public class LuceneFirst {
 		indexReader.close();
 	}
 	
+	public static void printAnalyser() throws IOException {
+		// 1. 创建一个Analyzer对象, StandardAnalyzer对象
+		Analyzer analyzer = new StandardAnalyzer();
+		// 2. 使用分析器对象的tokenStream方法获得一个TokenStream对象
+		TokenStream tokenStream = analyzer.tokenStream("", new FileReader("pride-and-prejudice.txt"));
+		// 3. 向TokenStream对象中设置一个引用, 相当于数的一个指针.
+		CharTermAttribute attribute = tokenStream.addAttribute(CharTermAttribute.class);
+		// 4. 调用TokenStream对象的rest方法, 如果不调用会抛异常
+		tokenStream.reset();
+		// 5. 使用while循环遍历TokenStream对象.
+		while (tokenStream.incrementToken()) {
+			System.out.println(attribute.toString());
+		}
+		// 6. 关闭tokenStream对象
+		tokenStream.close();
+		analyzer.close();
+	}
+	
 	public static void main(String[] args) throws IOException {
-		readIndex();
+//		createIndex();
+//		readIndex();
+		printAnalyser();
 	}
 }
