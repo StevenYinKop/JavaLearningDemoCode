@@ -11,13 +11,11 @@ import java.text.DecimalFormat;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -33,11 +31,11 @@ public class ModifyAmountByOrderId {
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(0);
         df.setGroupingUsed(false);
-        XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream("C:\\Users\\Steven.Yin\\Desktop\\Carina.Hu\\demo.xlsx"));
+        SXSSFWorkbook wb = new SXSSFWorkbook(new XSSFWorkbook(new FileInputStream("C:\\Users\\Steven.Yin\\Desktop\\Carina.Hu\\demo2.xlsx")));
         evaluator = wb.getCreationHelper().createFormulaEvaluator();
         formatter = new DataFormatter();
-        Sheet mainSheet = wb.getSheetAt(0);
-        Sheet mappingSheet = wb.getSheetAt(1);
+        Sheet mainSheet = wb.getSheet("5.1 明细");
+        Sheet mappingSheet = wb.getSheet("目标数据");
         Map<String, BigDecimal> orderAndAmountMapping = getOrderAndAmountMapping(mappingSheet);
         int amountIndex = findIndex("含税收入", mainSheet.getRow(0));
         int orderIndex = findIndex("订单号", mainSheet.getRow(0));
@@ -62,11 +60,10 @@ public class ModifyAmountByOrderId {
         }
         File file = new File("C:\\Users\\Steven.Yin\\Desktop\\Carina.Hu\\result.xlsx");
         if(!file.exists()) file.createNewFile();
-        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(wb, 200);
+//        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(wb, 200);
         FileOutputStream stream = new FileOutputStream(file);
-        sxssfWorkbook.write(stream);;
+        wb.write(stream);;
         stream .close();
-        sxssfWorkbook.close();
         wb.close();
     }
 
@@ -83,8 +80,8 @@ public class ModifyAmountByOrderId {
         Map<String, BigDecimal> orderAndAmountMapping = Maps.newHashMap();
         for (int i = 1; i < mappingSheet.getLastRowNum(); i++) {
             Row row = mappingSheet.getRow(i);
-            Cell orderCell = row.getCell(0);
-            Cell amountCell = row.getCell(2);
+            Cell orderCell = row.getCell(findIndex("订单号", row));
+            Cell amountCell = row.getCell(findIndex("新收入", row));
             orderAndAmountMapping.put(getValue(orderCell),
                     new BigDecimal(getValue(amountCell)).setScale(2, RoundingMode.HALF_UP));
         }
