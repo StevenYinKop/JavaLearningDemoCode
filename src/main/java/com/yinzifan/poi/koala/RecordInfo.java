@@ -9,7 +9,7 @@ class RecordInfo {
     private String sales;
     private String patientName;
     private String performanceMonth;
-    private String incomeMonth;
+    private String type;
     private BigDecimal payment;
 
     public Integer getRowIndexInExcel() {
@@ -36,7 +36,6 @@ class RecordInfo {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((incomeMonth == null) ? 0 : incomeMonth.hashCode());
         result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
         result = prime * result + ((patientName == null) ? 0 : patientName.hashCode());
         result = prime * result + ((performanceMonth == null) ? 0 : performanceMonth.hashCode());
@@ -53,11 +52,6 @@ class RecordInfo {
         if (getClass() != obj.getClass())
             return false;
         RecordInfo other = (RecordInfo) obj;
-        if (incomeMonth == null) {
-            if (other.incomeMonth != null)
-                return false;
-        } else if (!incomeMonth.equals(other.incomeMonth))
-            return false;
         if (orderId == null) {
             if (other.orderId != null)
                 return false;
@@ -121,17 +115,17 @@ class RecordInfo {
         this.performanceMonth = performanceMonth;
     }
 
-    public String getIncomeMonth() {
-        return incomeMonth;
+    public String getType() {
+        return type;
     }
 
-    public void setIncomeMonth(String incomeMonth) {
-        this.incomeMonth = incomeMonth;
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
     public String toString() {
         return "当前行数: " + getRowIndexInExcel() + ", 订单编号:" + orderId + ", 销售代表: " + sales + ", 患者姓名: " + patientName
-                + ", 业绩月份: " + performanceMonth + ", 收入月份: " + incomeMonth + ", 单笔收费金额: " + payment;
+                + ", 业绩月份: " + performanceMonth + ", 单笔收费金额: " + payment;
     }
 }

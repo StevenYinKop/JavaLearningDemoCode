@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -19,6 +20,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.beust.jcommander.internal.Maps;
 import com.google.common.collect.Sets;
@@ -33,20 +35,20 @@ public class RemoveDuplicate {
 
     public RemoveDuplicate(Workbook wb) {
         this.wb = wb;
-        this.result = new HSSFWorkbook();
+        this.result = new XSSFWorkbook();
         blankRowIndexMap = new HashMap<>();
         this.init();
     }
 
     public void parse() {
-        for (int i = 0; i < wb.getNumberOfSheets(); i++) {
-            Sheet currentSheet = wb.getSheetAt(i);
+//        for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+            Sheet currentSheet = wb.getSheet("全国表");
             Sheet targetSheet = result.createSheet(currentSheet.getSheetName());
             blankRowIndexMap.put(targetSheet.getSheetName(), new Stack<>());
             copyRow(currentSheet.getRow(0), targetSheet.createRow(0));
             calculate(currentSheet, targetSheet);
             removeBlankRow(targetSheet);
-        }
+//        }
     }
 
     public void outputToFile(File file) {
@@ -70,7 +72,7 @@ public class RemoveDuplicate {
         for (int i = 1; i < currentSheet.getPhysicalNumberOfRows(); i++) {
             Row row = currentSheet.getRow(i);
             RecordInfo info = assembleRecordInfo(row, titleIndexMapping);
-            if (map.containsKey(info)) {
+            if (map.containsKey(info) && "临床".equals(info.getType())) {
                 RecordInfo recordInfo = map.get(info);
                 System.out.println();
                 System.out.println(String.format("存在重复记录: 第 %s 和第 %s 行重复, 金额为: %s (第 %s 行), %s (第 %s 行)",
@@ -119,23 +121,23 @@ public class RemoveDuplicate {
             String value = formatter.formatCellValue(row.getCell(i), evaluator);
             String title = mapping.get(i);
             switch (title) {
-            case "订单编号":
+            case "订单号":
                 info.setOrderId(value);
                 break;
             case "销售代表":
                 info.setSales(value);
                 break;
-            case "业绩月份":
+            case "月份":
                 info.setPerformanceMonth(value);
                 break;
-            case "收入月份":
-                info.setIncomeMonth(value);
-                break;
-            case "单笔收费金额":
+            case "收费金额":
+                if (StringUtils.isBlank(value)) value = "0";
                 info.setPaymentCellIndex(i);
                 info.setPayment(new BigDecimal(value));
                 break;
-            case "患者姓名":
+            case "性质":
+                info.setType(value);
+            case "病人姓名":
                 info.setPatientName(value);
                 break;
             default:
@@ -149,13 +151,22 @@ public class RemoveDuplicate {
     private void copyRow(Row row, Row targetRow) {
         for (int i = 0; i < row.getLastCellNum(); i++) {
             Cell cell = row.getCell(i);
-            Cell targetCell = targetRow.createCell(i, cell.getCellType());
-            targetCell.setCellComment(cell.getCellComment());
+            Cell targetCell = null;
+            if(cell == null) {
+                targetCell = targetRow.createCell(i, Cell.CELL_TYPE_BLANK);
+            } else {
+                targetCell = targetRow.createCell(i, cell.getCellType());
+                targetCell.setCellComment(cell.getCellComment());
+            }
             copyCellValue(cell, targetCell);
         }
     }
 
     private void copyCellValue(Cell cell, Cell targetCell) {
+        if (cell == null) {
+            targetCell.setCellValue(new String());
+            return;
+        }
         switch (cell.getCellType()) {
         case Cell.CELL_TYPE_BOOLEAN:
             targetCell.setCellValue(cell.getBooleanCellValue());
@@ -169,8 +180,9 @@ public class RemoveDuplicate {
         case Cell.CELL_TYPE_NUMERIC:
             targetCell.setCellValue(cell.getNumericCellValue());
             break;
-        default:
+        case Cell.CELL_TYPE_STRING:
             targetCell.setCellValue(cell.getStringCellValue());
+        default:
             break;
         }
     }
@@ -178,7 +190,7 @@ public class RemoveDuplicate {
     private Map<Integer, String> mapping(Row row) {
         Map<Integer, String> map = new HashMap<>();
         int cellCnt = row.getPhysicalNumberOfCells();
-        Set<String> set = Sets.newHashSet("订单编号", "销售代表", "业绩月份", "收入月份", "单笔收费金额", "患者姓名");
+        Set<String> set = Sets.newHashSet("订单号", "销售代表", "月份", "收费金额", "病人姓名", "性质");
         for (int i = 0; i < cellCnt; i++) {
             String columnName = formatter.formatCellValue(row.getCell(i), evaluator);
             if (set.contains(columnName))
@@ -189,9 +201,9 @@ public class RemoveDuplicate {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         RemoveDuplicate removeDuplicate = new RemoveDuplicate(
-                new HSSFWorkbook(new FileInputStream("C:\\Users\\Steven.Yin\\Documents\\demo.xls")));
+                new XSSFWorkbook(new FileInputStream("C:\\Users\\Steven.Yin\\Documents\\demo.xlsx")));
         removeDuplicate.parse();
-        File result = new File("C:\\Users\\Steven.Yin\\Documents\\result.xls");
+        File result = new File("C:\\Users\\Steven.Yin\\Documents\\result.xlsx");
         if (!result.exists())
             result.createNewFile();
         removeDuplicate.outputToFile(result);
