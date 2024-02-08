@@ -1,4 +1,4 @@
-package com.yinzifan.leetcode;
+package com.yinzifan.leetcode._271;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -60,10 +60,10 @@ import java.util.List;
  * <p>
  * Follow up: Could you write a generalized algorithm to work on any possible set of characters?
  */
-public class _271plus_Codec {
+public class Codec {
 
     public static void main(String[] args) {
-        _271plus_Codec solution = new _271plus_Codec();
+        Codec solution = new Codec();
         String s = solution.encode(List.of("C#", "&", "~Xp|F", "R4QBf9g=_"));
         System.out.println(solution.decode(s));
     }
