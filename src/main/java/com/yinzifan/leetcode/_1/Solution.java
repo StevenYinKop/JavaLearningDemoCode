@@ -1,26 +1,34 @@
 package com.yinzifan.leetcode._1;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        Map<Integer, List<Integer>> cache = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            List<Integer> list = cache.getOrDefault(nums[i], new LinkedList<>());
-            list.add(i);
-            cache.put(nums[i], list);
-        }
-        for (int key : cache.keySet()) {
-            if (cache.containsKey(target - key)) {
+    Set<Integer> indexCache = new HashSet<>();
 
-                return cache.get(key) == cache.get(target - key)
-                        ? new int[]{cache.get(key).get(0), cache.get(key).get(1)}
-                        : new int[]{cache.get(key).get(0), cache.get(target - key).get(0)};
+    public List<List<Integer>> threeSum(int[] nums) {
+        Set<String> result = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (i == j) continue;
+                for (int k = j + 1; k < nums.length; k++) {
+                    if (i == k || j == k) continue;
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        result.add(String.format("%d_%d_%d", nums[i], nums[j], nums[k]));
+                        indexCache.add(i);
+                        indexCache.add(j);
+                        indexCache.add(k);
+                    }
+                }
             }
         }
-        return null;
+        return result.stream()
+                .map(item -> Arrays.stream(item.split("_"))
+                        .map(Integer::valueOf)
+                        .collect(Collectors.toList()))
+                .collect(Collectors.toList());
     }
 }
