@@ -25,12 +25,10 @@ public class Solution {
             result.add(sb.toString());
             return;
         }
-        sb.append("0");
-        generateBinaryNumber(sb, n - 1);
-        sb.deleteCharAt(sb.length() - 1);
-
-        sb.append("1");
-        generateBinaryNumber(sb, n - 1);
-        sb.deleteCharAt(sb.length() - 1);
+        for (int i = 0; i < 10; i++) {
+            sb.append(i);
+            generateBinaryNumber(sb, n - 1);
+            sb.deleteCharAt(sb.length() - 1);
+        }
     }
 }
