@@ -43,7 +43,11 @@ import java.util.List;
 class Solution {
     public int maxDepth(Node root) {
         if (root == null) return 0;
-        return 1 + root.children.stream().map(this::maxDepth).max(Integer::compareTo).orElse(0);
+        return 1 + root.children
+                .stream()
+                .map(this::maxDepth)
+                .max(Integer::compareTo)
+                .orElse(0);
     }
 
     static class Node {
